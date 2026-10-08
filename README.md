@@ -1,82 +1,107 @@
-# 🖱️ MoveMouse - تطبيق منع انقطاع اتصال RDP للماك
+<p align="center">
+  <img src="docs/app-icon.png" width="128" height="128" alt="MoveMouse app icon" />
+</p>
 
-برنامج خفيف وسريع ومصمم خصيصاً لنظام macOS يعمل في **شريط القوائم العلوي (Menu Bar)**، يقوم بتحريك مؤشر الماوس تلقائياً في منتصف الشاشة (يمين ثم يسار) مع إمكانية النقر بالزر الأيسر لمنع قفل الجلسة أو انقطاع اتصال سطح المكتب البعيد (RDP) بسبب الخمول.
+<h1 align="center">MoveMouse</h1>
 
----
+<p align="center">
+  <strong>Automatic mouse movement, on your schedule.</strong>
+</p>
 
-## ✨ المميزات الرئيسية
+An open-source macOS menu bar app that automatically moves your mouse pointer at a configurable interval. Choose a movement pattern, adjust the timing, and start or pause movement from the menu bar.
 
-1. **أيقونة في شريط القوائم العلوي (Menu Bar)**:
-   - يظهر مباشرة في الشريط العلوي بجانب الساعة و Wi-Fi بدون أي إزعاج أو أخذ مساحة في الـ Dock.
-   - يتغير شكل الأيقونة تلقائياً ليوضح هل البرنامج يعمل (`cursorarrow.motionlines`) أو متوقف مؤقتاً (`cursorarrow.slash`).
+MoveMouse is useful whenever you need repeatable pointer movement, such as desktop demonstrations, testing mouse interactions, or keeping your Mac active during a task. Built with Swift and AppKit, it runs without a Dock icon.
 
-2. **تحكم كامل ببساطة**:
-   - **زر بدء وإيقاف مؤقت (Start / Pause)** بضغطة زر واحدة.
-   - **زر للتجربة الفورية (Move Now)**: لاختبار حركة الماوس فوراً دون انتظار الفاصل الزمني.
+## Features
 
-3. **حركة الماوس (Mouse Movement)**:
-   - **في منتصف الشاشة (افتراضي)**: ينتقل الماوس لمنتصف الشاشة ثم يتحرك يميناً ويساراً ثم يعود للمنتصف.
-   - **في الموضع الحالي (اختياري)**: حركة خفيفة جداً في موضع الماوس الحالي دون القفز للمنتصف.
+- **Configurable timing:** move every 15, 30, or 45 seconds, or every 1, 2, or 5 minutes.
+- **Two movement patterns:** move around the screen center or wiggle around the pointer's current position.
+- **Optional left click:** perform one click after each movement, with optional sound feedback.
+- **Simple controls:** start, pause, move immediately, or quit from the menu bar.
+- **Status at a glance:** see whether movement is running and when the last operation occurred.
+- **Saved preferences:** interval, movement pattern, click, and sound settings persist between launches.
+- **Sleep prevention:** prevent idle system sleep while automatic movement is running; pausing or quitting releases it.
 
-4. **نقرة ماوس بالزر الأيسر بعد الرجوع (اختياري - Left Click)**:
-   - خيار جديد في القائمة: `🖱️ نقرة بالزر الأيسر بعد الحركة (Left Click)`.
-   - عند تفعيله، بعد أن يعود الماوس للمنتصف يقوم بعمل نقرة واحدة بالزر الأيسر (Left Click)، وهو مفيد جداً في بعض أنظمة RDP التي تتطلب نقرة وليس فقط حركة ماوس لإعادة ضبط مؤقت الخمول.
-   - يمكنك تفعيله أو إيقافه في أي وقت بضغطة زر.
+## Requirements
 
-5. **تحديد الفاصل الزمني (Interval)**:
-   - 15 ثانية
-   - **30 ثانية (الافتراضي والموصى به)**
-   - 45 ثانية
-   - 1 دقيقة (60 ثانية)
-   - 2 دقيقة
-   - 5 دقائق
+- macOS 11 Big Sur or later.
+- An Apple Silicon Mac for the included app and current build script, which targets `arm64`.
+- Xcode Command Line Tools to build from source.
+- Accessibility permission for simulated mouse input, particularly clicking.
 
-6. **منع نوم نظام وشاشة الماك (Prevent System Sleep)**:
-   - يمنع الماك من الدخول في وضع السكون طالما أن البرنامج قيد التشغيل لضمان استمرار جلسة RDP.
+The current interface uses Arabic labels, with English labels for several controls, including Start, Pause, Move Now, Interval, and Left Click.
 
-7. **خفيف جداً على النظام**:
-   - مكتوب بلغة Swift الأصلية (Native Cocoa / AppKit).
-   - استهلاك المعالج: 0.0% تقريباً.
-   - استهلاك الذاكرة: ضئيل جداً (~40MB).
+## Getting started
 
----
+Clone the repository and build the app:
 
-## 🚀 كيفية التشغيل
-
-### 1. التشغيل السريع:
-يمكنك تشغيل البرنامج فوراً عبر النقر المزدوج على:
-```
-/Users/alhamou/Developer/moveMouse/MoveMouse.app
-```
-أو عبر الطرفية (Terminal):
 ```bash
-/Users/alhamou/Developer/moveMouse/run.sh
+git clone https://github.com/Alhamou/moveMouse.git
+cd moveMouse
+./build.sh
+./run.sh
 ```
 
-### 2. الإيقاف:
-- اضغط على أيقونة البرنامج في شريط القوائم العلوي واختر **⏸ إيقاف مؤقت (Pause)** للإيقاف المؤقت.
-- أو اختر **إغلاق التطبيق (Quit)** للخروج تماماً.
-- أو عبر سكريبت الإيقاف:
+If the Swift compiler is unavailable, install Xcode Command Line Tools with `xcode-select --install`, then run the build again.
+
+The build script creates `MoveMouse.app` in the project directory and signs it locally with an ad-hoc signature. You can also launch it by opening the app in Finder. To use the included app without rebuilding, run `./run.sh`.
+
+MoveMouse appears in the macOS menu bar and starts automatic movement on launch. Open its menu to configure the behavior or pause it.
+
+## Settings and controls
+
+| Setting | Options | First-launch default |
+| --- | --- | --- |
+| Interval | 15 s, 30 s, 45 s, 1 min, 2 min, 5 min | 30 seconds |
+| Movement pattern | Screen center or current pointer position | Screen center |
+| Left Click | Click once after movement | Enabled |
+| Click Sound | Play a sound after clicking | Enabled |
+
+**Screen center** moves the pointer to the center, then right and left, and finishes at the center. **Current pointer position** moves it a short distance right and left, then returns it to its starting position.
+
+To use movement only, turn off **Left Click**. When enabled, the click occurs at the final pointer position and interacts with whatever is underneath it. **Click Sound** is available when clicking is enabled.
+
+- **Pause / Start:** stop or resume scheduled movement and idle sleep prevention.
+- **Move Now:** perform one movement immediately using the current settings, including while paused.
+- **Quit:** stop movement and close the app.
+
+You can also stop the app from the project directory:
+
 ```bash
-/Users/alhamou/Developer/moveMouse/stop.sh
+./stop.sh
 ```
 
----
+## Accessibility permission
 
-## ⚙️ إذن إمكانية الوصول (Accessibility Permission)
+On first launch, macOS may ask you to allow MoveMouse to control mouse input. Grant access through:
 
-لكي يتمكن التطبيق من محاكاة حركة ونقرات الماوس بدقة لنظام RDP:
-1. عند تشغيل التطبيق لأول مرة، قد يطلب منك النظام السماح لـ **MoveMouse**.
-2. يمكنك الضغط على خيار **صلاحية إمكانية الوصول...** في القائمة لفتح الإعدادات مباشرة:
-   - **إعدادات النظام (System Settings)** > **الخصوصية والأمان (Privacy & Security)** > **إمكانية الوصول (Accessibility)**.
-   - قم بتفعيل المفتاح بجانب **MoveMouse**.
+1. Open **System Settings → Privacy & Security → Accessibility**. On macOS Big Sur or Monterey, use **System Preferences → Security & Privacy → Privacy → Accessibility**.
+2. Enable **MoveMouse**, or add `MoveMouse.app` if it is not listed.
+3. Relaunch the app if the permission change is not recognized.
 
----
+The Accessibility item in the app's menu opens the relevant settings. If clicking stops working after rebuilding or moving the app, remove its existing Accessibility entry, add the app again, and relaunch it.
 
-## 🔄 التشغيل التلقائي عند بدء تشغيل الماك (Login Items)
+## Launch at login
 
-إذا كنت ترغب بأن يشتغل التطبيق تلقائياً بمجرد فتح الماك:
-1. افتح **إعدادات النظام (System Settings)**.
-2. ادخل إلى **عام (General)** > **عناصر تسجيل الدخول (Login Items & Extensions)**.
-3. اضغط على علامة **+** في قائمة "فتح عند تسجيل الدخول" (Open at Login).
-4. اختر ملف التطبيق: `/Users/alhamou/Developer/moveMouse/MoveMouse.app`.
+To start MoveMouse when you sign in, add `MoveMouse.app` to your macOS login items. On recent macOS versions, open **System Settings → General → Login Items**, then add the app under **Open at Login**. On Big Sur or Monterey, use **System Preferences → Users & Groups → Login Items**.
+
+MoveMouse starts scheduled movement whenever it launches, using your saved settings.
+
+## Development and contributing
+
+The project uses native macOS frameworks and builds directly with `swiftc`; no third-party dependencies or Xcode project are required.
+
+| File | Purpose |
+| --- | --- |
+| `src/main.swift` | Application entry point |
+| `src/AppDelegate.swift` | Menu bar interface and controls |
+| `src/MouseMover.swift` | Movement timer, pointer input, and saved preferences |
+| `src/SleepManager.swift` | Idle system sleep prevention |
+| `build.sh` | Compile, package, and locally sign the app |
+| `run.sh` / `stop.sh` | Launch or stop the app |
+
+Bug reports, feature suggestions, documentation improvements, and pull requests are welcome. [Open an issue](https://github.com/Alhamou/moveMouse/issues) with the macOS version, steps to reproduce, and expected behavior. For code changes, rebuild with `./build.sh` and manually check the affected menu controls and movement behavior before submitting a pull request.
+
+## License
+
+MoveMouse is released under the [MIT License](LICENSE).
